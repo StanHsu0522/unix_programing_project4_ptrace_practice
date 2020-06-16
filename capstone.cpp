@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
 
         cin.getline(input_str, sizeof(input_str));          // e.g. input: '>>> 4839f048ffcb4889db4885fa4801d3'
         if (strlen(input_str) == 0)     continue;
-        strcpy(machine_code, input_str+4);                  // remove first 4 charactors (i.e. '>>> ')
+        strcpy(machine_code, input_str);                  // remove first 4 charactors (i.e. '>>> ')
         
         int size = strlen(machine_code)/2;
         unsigned char code_hex[size + 1];
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
         if ((count = cs_disasm(cshandle, (unsigned char*)code_hex, sizeof(code_hex), 0x1000, 0, &insn)) > 0) {
             for (size_t j=0 ; j<count ; j++) {
                 memset(readable_assmably, 0, 4096);
-                sprintf(readable_assmably, "%s\t%s\n", insn[j].mnemonic, insn[j].op_str);
+                sprintf(readable_assmably, "%s  %s\n", insn[j].mnemonic, insn[j].op_str);
                 mbsize = insn[j].size;
                 memcpy(machine_bytes, insn[j].bytes, insn[j].size);
                 // // Output assambly in hex.
